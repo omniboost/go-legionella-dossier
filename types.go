@@ -79,3 +79,12 @@ type Floor struct {
 	Name        string `json:"name"`
 	FollowOrder int    `json:"follow_order"`
 }
+
+type Rooms map[string]Room
+
+type Room struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Floor       int    `json:"floor"`
+	FollowOrder int    `json:"followOrder"`
+}
