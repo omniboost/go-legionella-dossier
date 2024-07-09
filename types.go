@@ -42,10 +42,10 @@ type Location struct {
 	Relation struct {
 		ID int `json:"id"`
 	} `json:"relation"`
-	Branch struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	} `json:"branch"`
+	LocationType       string `json:"location_type,omitempty"`
+	AllowedManagements []any  `json:"allowed_managements"`
+	EnabledManagements []any  `json:"enabled_managements"`
+	Branch             Branch `json:"branch"`
 }
 
 type Taskgroups []Taskgroup
