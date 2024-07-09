@@ -47,3 +47,17 @@ type Location struct {
 		Name string `json:"name"`
 	} `json:"branch"`
 }
+
+type Taskgroups []Taskgroup
+
+type Taskgroup struct {
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Relation struct {
+		ID int `json:"id"`
+	} `json:"relation"`
+	Branch struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"branch"`
+}
