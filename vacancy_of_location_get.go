@@ -35,6 +35,7 @@ func (r VacancyOfLocationGet) NewQueryParams() *VacancyOfLocationGetQueryParams 
 }
 
 type VacancyOfLocationGetQueryParams struct {
+	Description string `schema:"description,omitempty"`
 }
 
 func (p VacancyOfLocationGetQueryParams) ToURLValues() (url.Values, error) {
@@ -51,7 +52,7 @@ func (p VacancyOfLocationGetQueryParams) ToURLValues() (url.Values, error) {
 	return params, nil
 }
 
-func (r *VacancyOfLocationGet) QueryParams() QueryParams {
+func (r *VacancyOfLocationGet) QueryParams() *VacancyOfLocationGetQueryParams {
 	return r.queryParams
 }
 
