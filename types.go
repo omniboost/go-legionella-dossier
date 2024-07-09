@@ -61,3 +61,13 @@ type Taskgroup struct {
 		Name string `json:"name"`
 	} `json:"branch"`
 }
+
+type Vacancies []Vacancy
+
+type Vacancy struct {
+	ID           int      `json:"id"`
+	Description  string   `json:"description"`
+	Finished     bool     `json:"finished"`
+	Creation     DateTime `json:"creation"`
+	FinishedDate DateTime `json:"finishedDate"`
+}
