@@ -26,3 +26,10 @@ type Branch struct {
 	Image      string `json:"image"`
 	HeadBranch bool   `json:"head_branch"`
 }
+
+type Relations []Relation
+
+type Relation struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
