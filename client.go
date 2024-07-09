@@ -256,14 +256,19 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	}
 
 	status := &StatusResponse{Response: httpResp}
+	errResponse := &StatusErrorResponse{Response: httpResp}
 	// exResp := &ExceptionResponse{Response: httpResp}
-	err = c.Unmarshal(httpResp.Body, []any{body}, []any{status})
+	err = c.Unmarshal(httpResp.Body, []any{body}, []any{status, errResponse})
 	if err != nil {
 		return httpResp, err
 	}
 
 	if status.Error() != "" {
 		return httpResp, status
+	}
+
+	if errResponse.Error() != "" {
+		return httpResp, errResponse
 	}
 
 	// check if the response isn't an error
@@ -364,11 +369,29 @@ type StatusResponse struct {
 }
 
 func (r *StatusResponse) Error() string {
-	if r.Status != 0 && (r.Status < 200 || r.Status > 299) {
+	if r.Status != 0 && (r.Status < 200 || r.Status > 299) && r.Msg != "" {
 		if r.Msg == r.Message {
 			return fmt.Sprintf("Status %d: %s", r.Status, r.Msg)
 		}
 		return fmt.Sprintf("Status %d: %s %s", r.Status, r.Msg, r.Message)
+	}
+
+	return ""
+}
+
+type StatusErrorResponse struct {
+	// HTTP response that caused this error
+	Response *http.Response
+
+	Type   string `json:"type"`
+	Title  string `json:"title"`
+	Status int    `json:"status"`
+	Detail string `json:"detail"`
+}
+
+func (r *StatusErrorResponse) Error() string {
+	if r.Status != 0 && (r.Status < 200 || r.Status > 299) {
+		return fmt.Sprintf("%s, Status %d: %s", r.Title, r.Status, r.Detail)
 	}
 
 	return ""
