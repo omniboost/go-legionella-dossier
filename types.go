@@ -33,3 +33,17 @@ type Relation struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
+
+type Locations []Location
+
+type Location struct {
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Relation struct {
+		ID int `json:"id"`
+	} `json:"relation"`
+	Branch struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"branch"`
+}
