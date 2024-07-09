@@ -71,3 +71,11 @@ type Vacancy struct {
 	Creation     DateTime `json:"creation"`
 	FinishedDate DateTime `json:"finishedDate"`
 }
+
+type Floors []Floor
+
+type Floor struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	FollowOrder int    `json:"follow_order"`
+}
