@@ -62,6 +62,16 @@ type Taskgroup struct {
 	} `json:"branch"`
 }
 
+type VacancyLocation struct {
+	ID           int    `json:"id"`
+	Name         string `json:"name"`
+	Organization struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"organization"`
+	VacancyPoints Vacancies `json:"vacancyPoints"`
+}
+
 type Vacancies []Vacancy
 
 type Vacancy struct {
