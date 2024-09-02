@@ -257,8 +257,9 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 
 	status := &StatusResponse{Response: httpResp}
 	errResponse := &StatusErrorResponse{Response: httpResp}
+	codeErrResponse := &CodeErrorResponse{Response: httpResp}
 	// exResp := &ExceptionResponse{Response: httpResp}
-	err = c.Unmarshal(httpResp.Body, []any{body}, []any{status, errResponse})
+	err = c.Unmarshal(httpResp.Body, []any{body}, []any{status, errResponse, codeErrResponse})
 	if err != nil {
 		return httpResp, err
 	}
@@ -269,6 +270,10 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 
 	if errResponse.Error() != "" {
 		return httpResp, errResponse
+	}
+
+	if codeErrResponse.Error() != "" {
+		return httpResp, codeErrResponse
 	}
 
 	// check if the response isn't an error
@@ -392,6 +397,22 @@ type StatusErrorResponse struct {
 func (r *StatusErrorResponse) Error() string {
 	if r.Status != 0 && (r.Status < 200 || r.Status > 299) {
 		return fmt.Sprintf("%s, Status %d: %s", r.Title, r.Status, r.Detail)
+	}
+
+	return ""
+}
+
+type CodeErrorResponse struct {
+	// HTTP response that caused this error
+	Response *http.Response
+
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+func (r *CodeErrorResponse) Error() string {
+	if r.Code != 0 && (r.Code < 200 || r.Code > 299) {
+		return fmt.Sprintf("Code %d: %s", r.Code, r.Message)
 	}
 
 	return ""
